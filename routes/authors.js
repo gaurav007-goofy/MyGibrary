@@ -36,9 +36,10 @@ router.post("/", async (req, res) => {
   }
 });
 
+// Show Author and books by Author
 router.get("/:id", async (req, res) => {
   const author = await Author.findById(req.params.id);
-  const books = await Book.find({author: author.id});
+  const books = await Book.find({author: author.id}).limit(6).exec();
   try{
       res.render('authors/show',{
           author: author,
@@ -48,6 +49,8 @@ router.get("/:id", async (req, res) => {
       res.redirect("/");
   }
 });
+
+// render edit page
 router.get("/:id/edit", async (req, res) => {
   try {
     const author = await Author.findById(req.params.id);
@@ -56,6 +59,8 @@ router.get("/:id/edit", async (req, res) => {
     res.redirect("/authors");
   }
 });
+
+// Update Author name
 router.put("/:id", async (req, res) => {
   let author;
   try {
@@ -74,6 +79,8 @@ router.put("/:id", async (req, res) => {
     }
   }
 });
+
+// Delete Author
 router.delete("/:id", async (req, res) => {
   let author;
   try {
